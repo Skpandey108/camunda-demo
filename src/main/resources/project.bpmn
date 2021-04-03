@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0vip0x3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.16.2">
-  <bpmn:process id="project" name="项目报名审核" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" name="学生报名" camunda:initiator="student">
+  <bpmn:process id="project" name="Project registration review" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Student registration" camunda:initiator="student">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="recordId" label="项目审批记录id" type="long" />
+          <camunda:formField id="recordId" label="Project approval record id" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_0896wbg</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0896wbg" sourceRef="StartEvent_1" targetRef="Task_0uo9776" />
-    <bpmn:userTask id="Task_0uo9776" name="一级审核" camunda:candidateGroups="${school}">
+    <bpmn:userTask id="Task_0uo9776" name="Level 1 audit" camunda:candidateGroups="${school}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="extra_info_1" type="boolean" />
@@ -21,7 +21,7 @@
       <bpmn:incoming>SequenceFlow_0yvxoj5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1p5w6pj</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1q30hut" name="是否需要额外材料">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1q30hut" name="Do you need additional materials">
       <bpmn:incoming>SequenceFlow_1p5w6pj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0e7dyni</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_17v1wnw</bpmn:outgoing>
@@ -31,11 +31,11 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${extra_info_1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0yvxoj5" sourceRef="Task_0tkl4q8" targetRef="Task_0uo9776" />
-    <bpmn:userTask id="Task_0tkl4q8" name="上传额外材料" camunda:assignee="${student}">
+    <bpmn:userTask id="Task_0tkl4q8" name="Upload additional materials" camunda:assignee="${student}">
       <bpmn:incoming>SequenceFlow_0e7dyni</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yvxoj5</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0wqu9sy" name="是否审核通过">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0wqu9sy" name="Is it approved?">
       <bpmn:incoming>SequenceFlow_17v1wnw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0897jk5</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1d807sw</bpmn:outgoing>
@@ -43,7 +43,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_17v1wnw" sourceRef="ExclusiveGateway_1q30hut" targetRef="ExclusiveGateway_0wqu9sy">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!extra_info_1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_021j4v5" name="审核不通过&#10;">
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_021j4v5" name="Audit failed&#10;">
       <bpmn:incoming>SequenceFlow_0897jk5</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_06dfkkv</bpmn:incoming>
     </bpmn:intermediateThrowEvent>
@@ -53,7 +53,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1d807sw" sourceRef="ExclusiveGateway_0wqu9sy" targetRef="Task_0swjsdt">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved_1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="Task_0swjsdt" name="二级审核" camunda:candidateGroups="教务处">
+    <bpmn:userTask id="Task_0swjsdt" name="Secondary audit" camunda:candidateGroups="Academic Affairs Office">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="extra_info_1" type="boolean" />
@@ -64,7 +64,7 @@
       <bpmn:incoming>SequenceFlow_067h4pg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1oiv92z</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_01edl56" name="是否需要额外材料&#10;">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_01edl56" name="Do you need additional materials&#10;">
       <bpmn:incoming>SequenceFlow_1oiv92z</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1e54uxy</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_07jc5no</bpmn:outgoing>
@@ -74,18 +74,18 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${extra_info_1 == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_067h4pg" sourceRef="Task_090hxrd" targetRef="Task_0swjsdt" />
-    <bpmn:userTask id="Task_090hxrd" name="上传额外材料" camunda:assignee="${student}">
+    <bpmn:userTask id="Task_090hxrd" name="Upload additional materials" camunda:assignee="${student}">
       <bpmn:incoming>SequenceFlow_1e54uxy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_067h4pg</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_093qqz6" name="&#10;是否审核通过">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_093qqz6" name="&#10; Whether approved">
       <bpmn:incoming>SequenceFlow_07jc5no</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0oepqol</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_07jc5no" sourceRef="ExclusiveGateway_01edl56" targetRef="ExclusiveGateway_093qqz6" />
     <bpmn:sequenceFlow id="SequenceFlow_0oepqol" sourceRef="ExclusiveGateway_093qqz6" targetRef="Task_09dk91s" />
     <bpmn:sequenceFlow id="SequenceFlow_06dfkkv" sourceRef="Task_09dk91s" targetRef="IntermediateThrowEvent_021j4v5" />
-    <bpmn:serviceTask id="Task_09dk91s" name="短信通知学生" camunda:delegateExpression="${smsServiceTask}">
+    <bpmn:serviceTask id="Task_09dk91s" name="SMS notification to students" camunda:delegateExpression="${smsServiceTask}">
       <bpmn:incoming>SequenceFlow_0oepqol</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_06dfkkv</bpmn:outgoing>
     </bpmn:serviceTask>
